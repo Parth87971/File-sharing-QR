@@ -5,133 +5,299 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR File Share</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom right, #6a11cb 0%, #2575fc 100%);
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #7c3aed 0%, #2563eb 50%, #0891b2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .header {
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 4em;
             color: white;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        
+        .header p {
+            font-size: 1.3em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 20px;
+            color: white;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .feature-card p {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+        
+        .action-container {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .tab-btn {
+            padding: 20px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .tab-btn.send {
+            background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+            color: white;
+        }
+        
+        .tab-btn.receive {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .content-area {
+            min-height: 200px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-        }
-        header {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .logo {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-        h1 {
-            font-size: 2.5em;
-            margin: 0;
-        }
-        .tagline {
-            font-size: 1.2em;
-            opacity: 0.8;
-            margin-top: 10px;
-        }
-        .features {
-            display: flex;
             justify-content: center;
+        }
+        
+        .info-text {
+            font-size: 1.5em;
+            color: #374151;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .sub-text {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+        
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
             gap: 10px;
-            margin: 20px 0;
-        }
-        .feature {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .tabs {
-            display: flex;
-            background: white;
-            border-radius: 30px 30px 0 0;
-            overflow: hidden;
-            width: 80%;
-            max-width: 800px;
-        }
-        .tab {
-            flex: 1;
-            padding: 15px 20px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-        .tab.active {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
             color: white;
-        }
-        .tab:not(.active) {
-            color: #333;
-        }
-        .content {
-            background: white;
-            width: 80%;
-            max-width: 800px;
-            border-radius: 0 0 20px 20px;
-            padding: 40px;
-            color: #333;
-            text-align: center;
-        }
-        .drop-zone {
-            border: 2px dashed #ccc;
-            border-radius: 10px;
-            padding: 40px;
-            margin: 20px 0;
-        }
-        .upload-icon {
-            font-size: 3em;
-            color: #6a11cb;
-            margin-bottom: 10px;
-        }
-        .drop-text {
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        .drop-subtext {
-            opacity: 0.7;
-        }
-        a {
-            color: inherit;
             text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.4);
+        }
+        
+        .footer {
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95em;
+        }
+        
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            transition: border-color 0.3s ease;
+        }
+        
+        .footer a:hover {
+            border-bottom-color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .header p {
+                font-size: 1.1em;
+            }
+            
+            .action-container {
+                padding: 30px 20px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">📱 QR</div>
-        <h1>QR File Share</h1>
-        <div class="tagline">⚡ Lightning-fast file transfer with QR codes ⚡</div>
-    </header>
-    <div class="features">
-        <div class="feature">⚡ Instant Transfer</div>
-        <div class="feature">🛡️ Secure & Private</div>
-        <div class="feature">📡 No Internet Needed</div>
-        <div class="feature">📱 Cross-Platform</div>
-    </div>
-    <div class="tabs">
-        <a href="generator.html"><div class="tab active">⬆️ Send File</div></a>
-        <a href="scanner.html"><div class="tab">⬇️ Receive File</div></a>
-    </div>
-    <div class="content">
-        <div class="drop-zone">
-            <div class="upload-icon">⬆️</div>
-            <div class="drop-text">Drop your file here</div>
-            <div class="drop-subtext">or press Enter / Space to browse from your device</div>
-            <div class="drop-subtext">Maximum file size: 100MB</div>
+    <div class="container">
+        <div class="header">
+            <h1>QR File Share</h1>
+            <p>Lightning-fast file transfer with QR codes</p>
         </div>
-        <p>Open <a href="generator.html">generator.html</a> to send files or <a href="scanner.html">scanner.html</a> to receive files.</p>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Instant Transfer</h3>
+                <p>Start sharing in seconds</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Secure & Private</h3>
+                <p>Air-gapped technology</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📡</div>
+                <h3>No Internet Needed</h3>
+                <p>Works completely offline</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Cross-Platform</h3>
+                <p>Any device, any browser</p>
+            </div>
+        </div>
+        
+        <div class="action-container">
+            <div class="tabs">
+                <button class="tab-btn send">
+                    <span>⬆️</span>
+                    <span>Send File</span>
+                </button>
+                <button class="tab-btn receive">
+                    <span>⬇️</span>
+                    <span>Receive File</span>
+                </button>
+            </div>
+            
+            <div class="content-area">
+                <div class="info-text">Ready to send a file?</div>
+                <div class="sub-text">Choose your action to get started</div>
+                <a href="generator.html" class="cta-btn">
+                    <span>⬆️</span>
+                    <span>Open Sender</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Open source • <a href="https://github.com/mohankumarelec/Airgapped-QR-code-Transfer" target="_blank">View on GitHub</a></p>
+        </div>
     </div>
+    
+    <script>
+        const sendTab = document.querySelector('.tab-btn.send');
+        const receiveTab = document.querySelector('.tab-btn.receive');
+        const contentArea = document.querySelector('.content-area');
+        
+        sendTab.addEventListener('click', () => {
+            sendTab.style.background = 'linear-gradient(135deg, #7c3aed 0%, #6366f1 100%)';
+            sendTab.style.color = 'white';
+            receiveTab.style.background = '#f3f4f6';
+            receiveTab.style.color = '#6b7280';
+            
+            contentArea.innerHTML = `
+                <div class="info-text">Ready to send a file?</div>
+                <div class="sub-text">Open the generator to start transferring</div>
+                <a href="generator.html" class="cta-btn">
+                    <span>⬆️</span>
+                    <span>Open Sender</span>
+                </a>
+            `;
+        });
+        
+        receiveTab.addEventListener('click', () => {
+            receiveTab.style.background = 'linear-gradient(135deg, #7c3aed 0%, #6366f1 100%)';
+            receiveTab.style.color = 'white';
+            sendTab.style.background = '#f3f4f6';
+            sendTab.style.color = '#6b7280';
+            
+            contentArea.innerHTML = `
+                <div class="info-text">Ready to receive a file?</div>
+                <div class="sub-text">Open the scanner to start receiving</div>
+                <a href="scanner.html" class="cta-btn">
+                    <span>⬇️</span>
+                    <span>Open Receiver</span>
+                </a>
+            `;
+        });
+    </script>
 </body>
 </html>
